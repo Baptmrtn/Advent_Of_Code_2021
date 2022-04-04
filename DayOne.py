@@ -29,7 +29,7 @@ class Sonar(Ocean):
 		with open(self.path) as f:
 			for measurement in f:
 				try:
-					if Sonar.DepthChange(lastMeasurement,int(measurement.strip())):#lastMeasurement < int(measurement.strip()):
+					if Sonar.DepthChange(lastMeasurement,int(measurement.strip())):
 						self.Total_Increase += 1
 				except:
 					pass 
@@ -39,7 +39,7 @@ class Sonar(Ocean):
 	#############
 	#### ** #####
 	#############
-	
+
 	def SlidingWindowsCalculus(self):
 		"""
 		Créer une fonction qui calcule les sliding windows automatiquement et n'en garde en mémoire que 2:
