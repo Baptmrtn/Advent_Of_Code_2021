@@ -1,5 +1,5 @@
 
-with open("test.txt","r") as file:
+with open("Day8.txt","r") as file:
 	data = []
 	for f in file:
 		data.append([x.split(" ") for x in f.strip().split(" | ")])
@@ -40,43 +40,38 @@ def FlowLookUp(data):
 		elif len(number) == 4:
 			DicoGuessNumber["4"] = number
 	# Guess "a"	
+	# Difference entre 7 et 1 
 	DicoGuessLetter["a"] = [x for x in DicoGuessNumber["7"] if x not in [y for y in DicoGuessNumber['1']]][0] 
-	#print(f" a : {DicoGuessLetter['a']}")
+	print(f" a : {DicoGuessLetter['a']}")
 	# Guess "f"
+	# If nombre de lettre = 6 & nombre de caractère en commun avec le digit 1 est de 1, alors c'est "f"
 	for index,number in enumerate(data):
 		if len(number) == 6:
 			if len([x for x in number if x in DicoGuessNumber["1"]]) ==1:
 				DicoGuessLetter["f"] = [x for x in number if x in DicoGuessNumber["1"]][0]
 			else:
 				Findc = [x for x in number if x in DicoGuessNumber["1"]]
-	#print(f" f : {DicoGuessLetter['f']}")
+	print(f" f : {DicoGuessLetter['f']}")
 	# Guess "c"
+	#Findc recupère les deux nombres de 
 	DicoGuessLetter["c"] = [x for x in Findc if x != DicoGuessLetter["f"]][0]
-	#print(f" c : {DicoGuessLetter['c']}")
-	# Guess "d"
-	for letter in [x for x in ["a","b","c","d","e","f","g"] if x not in [DicoGuessLetter['a'],DicoGuessLetter['f'],DicoGuessLetter['c']]]: 
-		count = 0
-		for number in [x for x in data if (len(x) != 3 and len(x) != 2 and len(x) != 4 )]:
+	# Guess "e" et "b"
+	for letter in [x for x in ["a","b","c","d","e","f","g"] if x not in [DicoGuessLetter['a'],DicoGuessLetter['f'],DicoGuessLetter['c']]]:
+		countLetter = 0
+		for number in data:
+			#print(number)
 			if letter in number:
-				count += 1
-		if count == 6:
-			DicoGuessLetter["d"] = letter
-			break
-	#print(f" d : {DicoGuessLetter['d']}")
-	# Guess "b"
-	DicoGuessLetter["b"] = [x for x in DicoGuessNumber["4"] if x not in [DicoGuessLetter['d'],DicoGuessLetter['c'],DicoGuessLetter['f']]][0] 
-	#print(f" b : {DicoGuessLetter['b']}")
-	# Guess "g"
-	for numberMixt in [x for x in data if (len(x) == 6)]:
-		numberSimplified = numberMixt
-		for x in DicoGuessLetter:
-			numberSimplified = numberSimplified.replace(DicoGuessLetter[x],"")
-		if len(numberSimplified) == 1:
-			DicoGuessLetter["g"] = numberSimplified
-	#print(f" g : {DicoGuessLetter['g']}")
-	# Guess "e"
-	DicoGuessLetter["e"] = [x for x in ["a","b","c","d","e","f","g"] if x not in DicoGuessLetter.values()][0]
-	#print(f" e : {DicoGuessLetter['e']}")
+				#print(True)
+				countLetter += 1
+		if countLetter == 4:
+			DicoGuessLetter['e'] = letter
+		elif countLetter == 6:
+			DicoGuessLetter["b"] = letter
+		else:
+			pass
+	# Guess "d" et "g"
+	DicoGuessLetter["d"] =[x for x in ["a","b","c","d","e","f","g"] if x not in DicoGuessLetter.values() and x in DicoGuessNumber["4"]][0]
+	DicoGuessLetter["g"] = [x for x in ["a","b","c","d","e","f","g"] if x not in DicoGuessLetter.values()][0]
 	return DicoGuessLetter
 
 def OutPutUpdate(data,updateLetter):
@@ -97,6 +92,7 @@ FinalResult = 0
 for index in data:
 
 	CombinaisonLetter = FlowLookUp(index[0])
+	print(CombinaisonLetter)
 	newValue = OutPutUpdate(index[1],CombinaisonLetter)
 	#print(newValue)
 	RESULTList = []
