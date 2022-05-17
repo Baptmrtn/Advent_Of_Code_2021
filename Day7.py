@@ -11,3 +11,6 @@ for index in range(min(data),max(data)+1):
 		minfuel = sum([SumFunc(abs(index-x)) for x in data])
 
 print(minfuel)
+
+
+
