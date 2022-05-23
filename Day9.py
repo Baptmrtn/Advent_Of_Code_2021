@@ -27,20 +27,16 @@ class HeatMap():
 						except:
 							pass
 				if checkMin:
-					print(f"###########\n New One on {indexRow,indexCol} \n###########")
 					self.ScorePart1 += currentValue + 1
 					bassinsCount = 0
 					result = self.RecursiveCheck(bassinsCount,indexRow,indexCol)
-					print(f"|||||||||||\n RESULT IS : {len(self.bassins)}\n|||||||||||")
 					self.ScorePart2.append(len(self.bassins))
 					self.bassins = []
 
 	def RecursiveCheck(self,Count,RowPoint,ColPoint):
-		print("New recursive")
 		if RowPoint < 0 or ColPoint < 0 or RowPoint> len(self.map)-1 or ColPoint > len(self.map[0])-1:
 			pass
 		else:
-			print(RowPoint,ColPoint)
 			if self.map[RowPoint][ColPoint] == 9:
 				pass
 			elif [RowPoint,ColPoint] in self.bassins:
@@ -51,20 +47,16 @@ class HeatMap():
 				self.RecursiveCheck(Count,RowPoint-1,ColPoint)
 				self.RecursiveCheck(Count,RowPoint,ColPoint+1)
 				self.RecursiveCheck(Count,RowPoint,ColPoint-1)
-				print(self.bassins)
 
 
-PATH = "test.txt"
+PATH = "Day9.txt"
 
 htmap = HeatMap(PATH)
 htmap.FindMinimum()
 print(htmap.ScorePart1)
-print(htmap.bassins)
-print(htmap.ScorePart2)
 
-liste = htmap.ScorePart2.copy()
+result = 1
+for x in sorted(htmap.ScorePart2.copy())[-3:]:
+	result *= x
 
-Part2ScoreFinal = 0
-for x in range(3):
-	
-	print(liste.pop(max(liste)))
+print(result)
